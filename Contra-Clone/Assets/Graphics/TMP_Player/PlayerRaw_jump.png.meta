@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: 846967d71fa6e8d43a508a63a1d61206
-timeCreated: 1521032393
+guid: a41ad953ec9d6c240ac5d1cb9ade41dd
+timeCreated: 1521034697
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: PlayerRaw_0
-    21300002: PlayerRaw_1
+    21300000: PlayerRaw_jump_0
+    21300002: PlayerRaw_jump_1
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -112,10 +112,10 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PlayerRaw_0
+      name: PlayerRaw_jump_0
       rect:
         serializedVersion: 2
-        x: 76
+        x: 74
         y: 6
         width: 132
         height: 254
@@ -126,11 +126,11 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: PlayerRaw_1
+      name: PlayerRaw_jump_1
       rect:
         serializedVersion: 2
         x: 335
-        y: 5
+        y: 12
         width: 132
         height: 254
       alignment: 0
