@@ -16,18 +16,18 @@ public class PlayerMovement : MonoBehaviour
     private bool _facingRight = true;
     public float value;
 
-    public Vector3 initialPos;
+    public Vector2 initialPos;
 
     bool isRunning;
-    bool CanPlayerMove;
+    //bool CanPlayerMove;
 
 
     //AnimeController _animeScript;
-    private Animator anime;
+    //private Animator anime;
     private Rigidbody rigidbody;
-    private Vector3 moveVector;
+    private Vector2 moveVector;
     //lastmotionilla lukittiin hypyn suunta
-    private Vector3 lastMotion;
+    private Vector2 lastMotion;
     private CharacterController controller;
 
     /*Animaatio STATET---------------------------------------------
@@ -43,14 +43,14 @@ public class PlayerMovement : MonoBehaviour
 
     void Awake()
     {
-        DisablePlayerMovement();
+        //DisablePlayerMovement();
     }
 
     void Start()
     {
         initialPos = transform.position;
         controller = GetComponent<CharacterController>();
-        anime = GetComponent<Animator>();
+        //anime = GetComponent<Animator>();
         rigidbody = GetComponent<Rigidbody>();
     }
 
@@ -59,19 +59,19 @@ public class PlayerMovement : MonoBehaviour
     {
         if (gameObject.transform.position.z != 0)
         {
-            transform.position = new Vector3(transform.position.x, transform.position.y, initialPos.z);
-            //Debug.Log ("Moved player");
+            transform.position = new Vector2(transform.position.x, transform.position.y);
+            Debug.Log ("Moved player");
         }
 
-        if (CanPlayerMove == true)
-        {
+        //if (CanPlayerMove == true)
+        //{
 
             //LIIKKUMINEN JA FLIP, Run ja Idle animaatio ----------------------------------------------------------------
             IsControllerGrounded();
-            moveVector = Vector3.zero;
+            moveVector = Vector2.zero;
             inputDirection = Input.GetAxis("P1movement") * speed;
             value = Input.GetAxis("P1movement");
-            //Debug.Log(value);
+            Debug.Log("Nappia painetaan");
             if (value > 0)
             {
 
@@ -82,7 +82,7 @@ public class PlayerMovement : MonoBehaviour
                 if (IsControllerGrounded())
                 {
                     isRunning = true;
-                    anime.SetInteger("State", 1);
+                    //anime.SetInteger("State", 1);
                 }
             }
 
@@ -95,24 +95,24 @@ public class PlayerMovement : MonoBehaviour
                 if (IsControllerGrounded())
                 {
                     isRunning = true;
-                    anime.SetInteger("State", 1);
+                    //anime.SetInteger("State", 1);
                 }
             }
             if (value == 0 && verticalVelocity == 0)
             {
                 isRunning = false;
-                anime.SetInteger("State", 0);
+                //anime.SetInteger("State", 0);
             }
 
             //----------------------------------------------------------------------------
 
             //HYÖKKÄYS ANIMAATIO (hyökkäys komento itsessään on playeruseskill.cs)
 
-            if (Input.GetButtonDown("P1Fire"))
+            /*if (Input.GetButtonDown("P1Fire"))
             {
-                anime.SetInteger("State", 4);
+                //anime.SetInteger("State", 4);
                 //AudioManager.audioManager.WandSwing();
-            }
+            }*/
 
             //----------------------------------------------------------------------------
             //HYPPY, TUPLAHYPPY ja molempien animaatiot
@@ -122,7 +122,7 @@ public class PlayerMovement : MonoBehaviour
 
                 if (Input.GetButtonDown("P1Jump"))
                 {
-                    anime.SetInteger("State", 2);
+                    //anime.SetInteger("State", 2);
                     verticalVelocity = jumpForce;
                     //Kun ilmassa secondjump on aktiivinen
                     secondJumpAvail = true;
@@ -136,7 +136,7 @@ public class PlayerMovement : MonoBehaviour
                 {
                     if (secondJumpAvail)
                     {
-                        anime.SetInteger("State", 2);
+                        //anime.SetInteger("State", 2);
                         verticalVelocity = jumpForce;
                         secondJumpAvail = false;
                     }
@@ -156,7 +156,7 @@ public class PlayerMovement : MonoBehaviour
 
         }
 
-    }
+   // }
     //-----------------------------------------------------------------------------------------------
 
     void FixedUpdate()
@@ -167,7 +167,7 @@ public class PlayerMovement : MonoBehaviour
         if (moveVector.y != 0f /*&& Input.GetButtonUp("P1Jump")*/)
         {
             // Debug.Log("hyppasin, menen up ja hyppy ei pohjassa");
-            anime.SetInteger("State", 3);
+            //anime.SetInteger("State", 3);
 
         }
     }
@@ -178,8 +178,8 @@ public class PlayerMovement : MonoBehaviour
     private bool IsControllerGrounded()
     {
 
-        Vector3 leftRayStart;
-        Vector3 rightRayStart;
+        Vector2 leftRayStart;
+        Vector2 rightRayStart;
 
         leftRayStart = controller.bounds.center;
         rightRayStart = controller.bounds.center;
@@ -187,16 +187,16 @@ public class PlayerMovement : MonoBehaviour
         leftRayStart.x -= controller.bounds.extents.x;
         rightRayStart.x += controller.bounds.extents.x;
 
-        Debug.DrawRay(leftRayStart, Vector3.down, Color.red);
-        Debug.DrawRay(rightRayStart, Vector3.down, Color.blue);
+        Debug.DrawRay(leftRayStart, Vector2.down, Color.red);
+        Debug.DrawRay(rightRayStart, Vector2.down, Color.blue);
 
-        if (Physics.Raycast(rightRayStart, Vector3.down, (controller.height / 2) + hoverHeight))
+        if (Physics.Raycast(rightRayStart, Vector2.down, (controller.height / 2) + hoverHeight))
         {
             //Debug.Log("osuu varpaat");
             return true;
         }
 
-        if (Physics.Raycast(leftRayStart, Vector3.down, (controller.height / 2) + hoverHeight))
+        if (Physics.Raycast(leftRayStart, Vector2.down, (controller.height / 2) + hoverHeight))
         {
             //Debug.Log("osuu kantapaa");
             return true;
@@ -211,19 +211,19 @@ public class PlayerMovement : MonoBehaviour
     //TÄSSÄ WALLJUMP JA SEN ANIMAATIO
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        if (CanPlayerMove == true)
-        {
+        //if (CanPlayerMove == true)
+        //{
             if (controller.collisionFlags == CollisionFlags.Sides)
             {
                 if (Input.GetButtonDown("P1Jump"))
                 {
-                    anime.SetInteger("State", 5);
+                    //anime.SetInteger("State", 5);
                     moveVector = hit.normal * speed;
                     verticalVelocity = jumpForce;
                 }
 
             }
-        }
+       // }
     }
     //--------------------------------------------------------------------------------------
 
@@ -231,12 +231,12 @@ public class PlayerMovement : MonoBehaviour
     private void Flip()
     {
         _facingRight = !_facingRight;
-        Vector3 theScale = transform.localScale;
-        theScale.z *= -1;
+        Vector2 theScale = transform.localScale;
+        //theScale.z *= -1;
         transform.localScale = theScale;
     }
 
-    public void EnablePlayerMovement()
+    /*public void EnablePlayerMovement()
     {
         CanPlayerMove = true;
         //pelaaja voi liikkua
@@ -248,5 +248,5 @@ public class PlayerMovement : MonoBehaviour
         //pelaaja ei voi liikkua
         //Debug.Log("pelaaja1 ei voi liikkua");
     }
-
+    */
 }
